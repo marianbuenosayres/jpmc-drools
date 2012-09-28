@@ -14,6 +14,7 @@
   <groupId>org.drools</groupId>
   <!-- TODO rename to drools once parent pom has been moved -->
   <artifactId>drools-multiproject</artifactId>
+  <version>5.4.0.Hibernate417</version>
   <packaging>pom</packaging>
 
   <name>Drools multiproject</name>
@@ -71,5 +72,39 @@
       </modules>
     </profile>
   </profiles>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.hibernate.javax.persistence</groupId>
+        <artifactId>hibernate-jpa-2.0-api</artifactId>
+        <version>1.0.1.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>4.1.7.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>4.1.7.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>knowledge-api</artifactId>
+        <version>5.4.0.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>knowledge-internal-api</artifactId>
+        <version>5.4.0.Final</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <properties>
+    <drools.version>5.4.0.Hibernate417</drools.version>
+  </properties>
 
 </project>
