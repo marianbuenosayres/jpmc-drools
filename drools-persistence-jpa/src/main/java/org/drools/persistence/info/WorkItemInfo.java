@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -120,9 +121,47 @@ public class WorkItemInfo implements Serializable {
         return workItem;
     }
 
-     
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + (int) (processInstanceId ^ (processInstanceId >>> 32));
+		result = prime * result + (int) (state ^ (state >>> 32));
+		result = prime * result + version;
+		result = prime * result + ((workItem == null) ? 0 : workItem.hashCode());
+		result = prime * result + Arrays.hashCode(workItemByteArray);
+		result = prime * result + ((workItemId == null) ? 0 : workItemId.hashCode());
+		return result;
+	}
 
-    @PreUpdate
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		WorkItemInfo other = (WorkItemInfo) obj;
+		if (creationDate == null) {
+			if (other.creationDate != null) return false;
+		} else if (!creationDate.equals(other.creationDate)) return false;
+		if (name == null) {
+			if (other.name != null) return false;
+		} else if (!name.equals(other.name)) return false;
+		if (processInstanceId != other.processInstanceId) return false;
+		if (state != other.state) return false;
+		if (version != other.version) return false;
+		if (workItem == null) {
+			if (other.workItem != null) return false;
+		} else if (!workItem.equals(other.workItem)) return false;
+		if (!Arrays.equals(workItemByteArray, other.workItemByteArray)) return false;
+		if (workItemId == null) {
+			if (other.workItemId != null) return false;
+		} else if (!workItemId.equals(other.workItemId)) return false;
+		return true;
+	}
+
+	@PreUpdate
     public void update() {
         this.state = workItem.getState();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

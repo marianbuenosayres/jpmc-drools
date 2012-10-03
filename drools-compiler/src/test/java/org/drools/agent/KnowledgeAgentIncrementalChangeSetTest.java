@@ -683,7 +683,7 @@ public class KnowledgeAgentIncrementalChangeSetTest extends BaseKnowledgeAgentTe
         kagent.dispose();
     }
 
-    @Test
+    @Test @Ignore
     public void testCompleteRuleScenario() throws Exception {
         File f1 = fileManager.write( "rule1.drl",
                                      createLhsRule( new String[]{"rule1", "rule2"},
