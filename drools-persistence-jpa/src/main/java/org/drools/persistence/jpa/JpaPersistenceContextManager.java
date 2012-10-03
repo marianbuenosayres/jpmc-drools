@@ -19,6 +19,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
 
+import org.springframework.orm.jpa.EntityManagerHolder;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+
 import org.drools.persistence.PersistenceContext;
 import org.drools.persistence.PersistenceContextManager;
 import org.drools.runtime.Environment;
@@ -52,7 +55,11 @@ public class JpaPersistenceContextManager
             
             if ( this.appScopedEntityManager == null ) {
                 internalAppScopedEntityManager = true;
-                this.appScopedEntityManager = this.emf.createEntityManager();
+
+                EntityManagerHolder emHolder = (EntityManagerHolder) TransactionSynchronizationManager.getResource( emf );
+                this.appScopedEntityManager = emHolder.getEntityManager();
+
+                //this.appScopedEntityManager = this.emf.createEntityManager();
 
                 this.env.set( EnvironmentName.APP_SCOPED_ENTITY_MANAGER,
                               this.appScopedEntityManager );
@@ -72,7 +79,10 @@ public class JpaPersistenceContextManager
         if ( cmdScopedEntityManager == null || 
            ( this.cmdScopedEntityManager != null && !this.cmdScopedEntityManager.isOpen() )) {
             internalCmdScopedEntityManager = true;
-            this.cmdScopedEntityManager = this.emf.createEntityManager(); // no need to call joinTransaction as it will do so if one already exists
+
+            EntityManagerHolder emHolder = (EntityManagerHolder) TransactionSynchronizationManager.getResource ( this.emf );
+            this.cmdScopedEntityManager = emHolder.getEntityManager();
+            //this.cmdScopedEntityManager = this.emf.createEntityManager(); // no need to call joinTransaction as it will do so if one already exists
             this.cmdScopedEntityManager.setFlushMode(FlushModeType.COMMIT);
             this.env.set( EnvironmentName.CMD_SCOPED_ENTITY_MANAGER,
                           this.cmdScopedEntityManager );

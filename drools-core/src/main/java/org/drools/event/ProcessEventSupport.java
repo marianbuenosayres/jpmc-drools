@@ -20,6 +20,7 @@ import java.util.Iterator;
 
 import org.drools.event.process.ProcessCompletedEvent;
 import org.drools.event.process.ProcessEventListener;
+import org.drools.event.process.ProcessNodeExceptionOccurredEvent;
 import org.drools.event.process.ProcessNodeLeftEvent;
 import org.drools.event.process.ProcessNodeTriggeredEvent;
 import org.drools.event.process.ProcessStartedEvent;
@@ -98,6 +99,18 @@ public class ProcessEventSupport extends AbstractEventSupport<ProcessEventListen
 
             do{
                 iter.next().afterNodeTriggered(event);
+            } while (iter.hasNext());
+        }
+    }
+
+    public void fireProcessNodeExceptionOcurred(final NodeInstance nodeInstance, KnowledgeRuntime kruntime, Throwable error) {
+        final Iterator<ProcessEventListener> iter = getEventListenersIterator();
+
+        if (iter.hasNext()) {
+            final ProcessNodeExceptionOccurredEvent event = new ProcessNodeExceptionOccurredEventImpl(nodeInstance, kruntime, error);
+
+            do{
+                iter.next().onNodeException(event);
             } while (iter.hasNext());
         }
     }

@@ -16,8 +16,12 @@
 package org.drools.persistence.util;
 
 import static org.drools.marshalling.util.MarshallingDBUtil.initializeTestDb;
-import static org.drools.runtime.EnvironmentName.*;
-import static org.junit.Assert.*;
+import static org.drools.runtime.EnvironmentName.ENTITY_MANAGER_FACTORY;
+import static org.drools.runtime.EnvironmentName.GLOBALS;
+import static org.drools.runtime.EnvironmentName.TRANSACTION;
+import static org.drools.runtime.EnvironmentName.TRANSACTION_MANAGER;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +36,7 @@ import javax.transaction.UserTransaction;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
+import org.drools.MockEntityManagerHolder;
 import org.drools.base.MapGlobalResolver;
 import org.drools.impl.EnvironmentFactory;
 import org.drools.marshalling.util.EntityManagerFactoryProxy;
@@ -45,6 +50,7 @@ import org.h2.tools.Server;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import bitronix.tm.BitronixTransactionManager;
 import bitronix.tm.TransactionManagerServices;
@@ -161,6 +167,10 @@ public class PersistenceUtil {
         
         context.put(ENTITY_MANAGER_FACTORY, emf);
 
+        if (TransactionSynchronizationManager.getResource(emf) == null) {
+        	TransactionSynchronizationManager.bindResource(emf, new MockEntityManagerHolder(emf));
+        }
+
         return context;
     }
 
@@ -194,6 +204,7 @@ public class PersistenceUtil {
             if (emfObject != null) {
                 try {
                     EntityManagerFactory emf = (EntityManagerFactory) emfObject;
+                    TransactionSynchronizationManager.unbindResource(emf);
                     emf.close();
                 } catch (Throwable t) {
                     t.printStackTrace();

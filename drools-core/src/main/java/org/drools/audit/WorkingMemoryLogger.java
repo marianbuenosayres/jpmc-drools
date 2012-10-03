@@ -77,6 +77,7 @@ import org.drools.event.RuleFlowGroupDeactivatedEvent;
 import org.drools.event.WorkingMemoryEventListener;
 import org.drools.event.process.ProcessCompletedEvent;
 import org.drools.event.process.ProcessEventListener;
+import org.drools.event.process.ProcessNodeExceptionOccurredEvent;
 import org.drools.event.process.ProcessNodeLeftEvent;
 import org.drools.event.process.ProcessNodeTriggeredEvent;
 import org.drools.event.process.ProcessStartedEvent;
@@ -102,6 +103,7 @@ import org.drools.spi.Tuple;
  * Subclasses of this class should implement the logEventCreated(LogEvent)
  * method and store this information, like for example log to file
  * or database.
+ * @author nicolas.loriente
  */
 public abstract class WorkingMemoryLogger
     implements
@@ -510,6 +512,10 @@ public abstract class WorkingMemoryLogger
             event.getProcessInstance().getProcessId(),
             event.getProcessInstance().getProcessName(),
             event.getProcessInstance().getId()) );
+    }
+
+    public void onNodeException(ProcessNodeExceptionOccurredEvent event) {
+        //TODO
     }
 
     public void afterNodeLeft(ProcessNodeLeftEvent event) {

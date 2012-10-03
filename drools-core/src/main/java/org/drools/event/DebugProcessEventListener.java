@@ -18,6 +18,7 @@ package org.drools.event;
 
 import org.drools.event.process.ProcessCompletedEvent;
 import org.drools.event.process.ProcessEventListener;
+import org.drools.event.process.ProcessNodeExceptionOccurredEvent;
 import org.drools.event.process.ProcessNodeLeftEvent;
 import org.drools.event.process.ProcessNodeTriggeredEvent;
 import org.drools.event.process.ProcessStartedEvent;
@@ -65,4 +66,7 @@ public class DebugProcessEventListener implements ProcessEventListener {
         System.err.println(event);
     }
 
+    public void onNodeException(ProcessNodeExceptionOccurredEvent event) {
+        System.err.println(event);
+    }
 }

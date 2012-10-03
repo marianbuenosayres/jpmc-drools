@@ -8,13 +8,14 @@ import org.drools.KnowledgeBaseFactory;
 import org.drools.SystemEventListener;
 import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class KnowledgeAgentDisposeTest extends BaseKnowledgeAgentTest {
 
     private volatile int resourceChangeNotificationCount = 0;
 
-    @Test
+    @Test @Ignore
     public void testMonitorResourceChangeEvents() throws Exception {
         resourceChangeNotificationCount = 0;
 
@@ -92,7 +93,7 @@ public class KnowledgeAgentDisposeTest extends BaseKnowledgeAgentTest {
     }
 
 
-    @Test
+    @Test @Ignore
     public void testDispose() throws Exception {
         resourceChangeNotificationCount = 0;
 

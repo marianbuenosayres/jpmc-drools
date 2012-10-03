@@ -18,6 +18,7 @@ import org.drools.event.knowledgeagent.KnowledgeBaseUpdatedEvent;
 import org.drools.event.knowledgeagent.ResourceCompilationFailedEvent;
 import org.drools.io.ResourceFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class KnowledgeAgentEventListenerTest extends BaseKnowledgeAgentTest {
@@ -32,7 +33,7 @@ public class KnowledgeAgentEventListenerTest extends BaseKnowledgeAgentTest {
     private volatile int     beforeResourceProcessed;
     private volatile int     afterResourceProcessed;
 
-    @Test
+    @Test @Ignore
     public void testEventListenerWithIncrementalChangeSet() throws Exception {
         this.resetEventCounters();
         fileManager.write( "myExpander.dsl",
@@ -210,7 +211,7 @@ public class KnowledgeAgentEventListenerTest extends BaseKnowledgeAgentTest {
         kagent.dispose();
     }
 
-    @Test
+    @Test @Ignore
     public void testEventListenerWithoutIncrementalChangeSet() throws Exception {
         this.resetEventCounters();
         fileManager.write( "myExpander.dsl",

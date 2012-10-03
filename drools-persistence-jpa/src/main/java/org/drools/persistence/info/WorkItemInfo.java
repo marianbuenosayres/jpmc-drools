@@ -3,6 +3,7 @@ package org.drools.persistence.info;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -32,8 +33,10 @@ import org.drools.runtime.Environment;
 
 @Entity
 @SequenceGenerator(name="workItemInfoIdSeq", sequenceName="WORKITEMINFO_ID_SEQ")
-public class WorkItemInfo  {
+public class WorkItemInfo implements Serializable {
     
+    private static final long serialVersionUID = 540417l;
+   
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator="workItemInfoIdSeq")
     private Long   workItemId;
@@ -55,7 +58,7 @@ public class WorkItemInfo  {
     WorkItem       workItem;
 
     private @Transient
-    Environment                               env;
+    transient Environment                       env;
     
     protected WorkItemInfo() {
     }

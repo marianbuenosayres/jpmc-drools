@@ -43,6 +43,7 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.FactHandle;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ReloadSessionTest {
@@ -87,7 +88,7 @@ public class ReloadSessionTest {
         return kbase;
     }
     
-    @Test 
+    @Test @Ignore
     public void reloadKnowledgeSessionTest() { 
         
         // Initialize drools environment stuff

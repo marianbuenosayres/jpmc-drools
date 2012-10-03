@@ -18,6 +18,7 @@ package org.drools.event;
 
 import org.drools.event.process.ProcessCompletedEvent;
 import org.drools.event.process.ProcessEventListener;
+import org.drools.event.process.ProcessNodeExceptionOccurredEvent;
 import org.drools.event.process.ProcessNodeLeftEvent;
 import org.drools.event.process.ProcessNodeTriggeredEvent;
 import org.drools.event.process.ProcessStartedEvent;
@@ -55,4 +56,6 @@ public class DefaultProcessEventListener implements ProcessEventListener {
     public void beforeVariableChanged(ProcessVariableChangedEvent event) {
     }
 
+    public void onNodeException(ProcessNodeExceptionOccurredEvent event) {
+    }
 }

@@ -39,6 +39,7 @@ import org.drools.event.RuleFlowGroupActivatedEvent;
 import org.drools.event.RuleFlowGroupDeactivatedEvent;
 import org.drools.event.process.ProcessCompletedEvent;
 import org.drools.event.process.ProcessEventListener;
+import org.drools.event.process.ProcessNodeExceptionOccurredEvent;
 import org.drools.event.process.ProcessNodeLeftEvent;
 import org.drools.event.process.ProcessNodeTriggeredEvent;
 import org.drools.event.process.ProcessStartedEvent;
@@ -463,6 +464,10 @@ public class KnowledgeSessionMonitoring implements KnowledgeSessionMonitoringMBe
         public void beforeVariableChanged(ProcessVariableChangedEvent event) {
             // TODO Auto-generated method stub
 
+        }
+
+        public void onNodeException(ProcessNodeExceptionOccurredEvent event) {
+            // TODO Auto-generated method stub
         }
 
         public static class GlobalProcessStatsData {

@@ -275,9 +275,9 @@ public abstract class AbstractHashTable
 
         private AbstractHashTable hashTable;
         private Entry[]           table;
-        private int               row;
+        private ThreadLocal<Integer> row = new ThreadLocal<Integer>();
         private int               length;
-        private Entry             entry;
+        private ThreadLocal<Entry> entry = new ThreadLocal<Entry>();
 
         public HashTableIterator() {
         }
@@ -291,34 +291,34 @@ public abstract class AbstractHashTable
                                                 ClassNotFoundException {
             hashTable = (AbstractHashTable) in.readObject();
             table = (Entry[]) in.readObject();
-            row = in.readInt();
+            row.set(in.readInt());
             length = in.readInt();
-            entry = (Entry) in.readObject();
+            entry.set((Entry) in.readObject());
         }
 
         public void writeExternal(ObjectOutput out) throws IOException {
             out.writeObject( hashTable );
             out.writeObject( table );
-            out.writeInt( row );
+            out.writeInt( row.get() );
             out.writeInt( length );
-            out.writeObject( entry );
+            out.writeObject( entry.get() );
         }
 
         /* (non-Javadoc)
          * @see org.drools.util.Iterator#next()
          */
         public Object next() {
-            if ( this.entry != null ) {
-                this.entry = this.entry.getNext();
+            if ( this.entry.get() != null ) {
+                this.entry.set(this.entry.get().getNext());
             }
 
             // if no entry keep skipping rows until we come to the end, or find one that is populated
-            while ( this.entry == null && this.row < this.length ){
-                this.entry = this.table[this.row];
-                this.row++;
+            while ( this.entry.get() == null && this.row.get() < this.length ){
+                this.entry.set(this.table[this.row.get()]);
+                this.row.set(this.row.get() + 1);
             }
 
-            return this.entry;
+            return this.entry.get();
         }
 
 
@@ -328,8 +328,8 @@ public abstract class AbstractHashTable
         public void reset() {
             this.table = this.hashTable.getTable();
             this.length = this.table.length;
-            this.entry = null;
-            this.row = 0;
+            this.entry.set( null );
+            this.row.set( 0 );
         }
     }
 

@@ -1,5 +1,6 @@
 package org.drools.persistence.info;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,8 +19,10 @@ import org.drools.persistence.SessionMarshallingHelper;
 
 @Entity
 @SequenceGenerator(name="sessionInfoIdSeq", sequenceName="SESSIONINFO_ID_SEQ")
-public class SessionInfo {
+public class SessionInfo implements Serializable {
     
+    private static final long serialVersionUID = 540417l;
+
     private @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator="sessionInfoIdSeq")
     Integer                        id;
@@ -36,7 +39,7 @@ public class SessionInfo {
     private byte[]             rulesByteArray;
 
     @Transient
-    SessionMarshallingHelper helper;
+    transient SessionMarshallingHelper helper;
     
     public SessionInfo() {
         this.startDate = new Date();
