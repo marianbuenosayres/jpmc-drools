@@ -61,6 +61,12 @@ public class JpaPersistenceContextManager
                 	this.appScopedEntityManager = emf.createEntityManager();
                 } else {
                 	this.appScopedEntityManager = emHolder.getEntityManager();
+                        if (!this.appScopedEntityManager.isOpen()) {
+                            TransactionSynchronizationManager.unbindResource( emf );
+                            this.appScopedEntityManager = emf.createEntityManager();
+                            emHolder = new EntityManagerHolder( this.appScopedEntityManager );
+                            TransactionSynchronizationManager.bindResource( emf, emHolder );
+                        }
                 }
 
                 //this.appScopedEntityManager = this.emf.createEntityManager();
@@ -89,6 +95,12 @@ public class JpaPersistenceContextManager
             	this.cmdScopedEntityManager = emf.createEntityManager();
             } else {
             	this.cmdScopedEntityManager = emHolder.getEntityManager();
+                if (!this.cmdScopedEntityManager.isOpen()) {
+                    TransactionSynchronizationManager.unbindResource( emf );
+                    this.cmdScopedEntityManager = emf.createEntityManager();
+                    emHolder = new EntityManagerHolder( this.cmdScopedEntityManager );
+                    TransactionSynchronizationManager.bindResource( emf, emHolder );
+                }
             }
             //this.cmdScopedEntityManager = this.emf.createEntityManager(); // no need to call joinTransaction as it will do so if one already exists
             this.cmdScopedEntityManager.setFlushMode(FlushModeType.COMMIT);
